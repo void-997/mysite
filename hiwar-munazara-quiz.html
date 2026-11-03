@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>اختبار الحوار والمناظرة الشامل</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef1fa;--surface:#fff;--ink:#1c2340;--muted:#5d6685;--line:#d5dbef;--chip:#e3e8f7;--ok:#15803d;--ok-bg:#dcf5e5;--no:#be123c;--no-bg:#fde4ea;--focus:#4338ca;--track:#d5dbef;
+--c0:#4338ca;--c1:#be185d;--c2:#0e7490;--c3:#b45309;--c4:#6d28d9;--c5:#047857}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+--bg:#0f1326;--surface:#181d38;--ink:#eceffd;--muted:#9aa4cc;--line:#2c345c;--chip:#232a4d;--ok:#6ee7a0;--ok-bg:#0f2e20;--no:#fda4b8;--no-bg:#3a1220;--focus:#a5b4fc;--track:#2c345c;
+--c0:#a5b4fc;--c1:#f9a8d4;--c2:#67e8f9;--c3:#fcd34d;--c4:#c4b5fd;--c5:#6ee7b7}}
+:root[data-theme="dark"]{color-scheme:dark;
+--bg:#0f1326;--surface:#181d38;--ink:#eceffd;--muted:#9aa4cc;--line:#2c345c;--chip:#232a4d;--ok:#6ee7a0;--ok-bg:#0f2e20;--no:#fda4b8;--no-bg:#3a1220;--focus:#a5b4fc;--track:#2c345c;
+--c0:#a5b4fc;--c1:#f9a8d4;--c2:#67e8f9;--c3:#fcd34d;--c4:#c4b5fd;--c5:#6ee7b7}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;font-size:18px;line-height:1.8;padding:0 14px 56px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:720px;margin-inline:auto;min-width:0}
+h1{font-size:26px;line-height:1.4;margin:22px 0 2px;color:var(--c0)}
+.lead{margin:0 0 14px;color:var(--muted);font-size:16px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.act{border:2px solid var(--c0);background:var(--c0);color:var(--surface);border-radius:12px;padding:9px 18px;font-weight:700;font-size:16px;min-height:44px}
+.act.alt{background:transparent;color:var(--c0)}
+.act[hidden]{display:none}
+.toprow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.total{color:var(--muted);font-size:15px}
+.grid{display:grid;gap:10px;margin-top:12px}
+.tile{display:block;width:100%;text-align:right;background:var(--surface);border:1px solid var(--line);border-inline-start:8px solid var(--c);border-radius:14px;padding:12px 14px}
+.tile b{display:flex;justify-content:space-between;gap:10px;font-size:19px;color:var(--c)}
+.tile small{display:block;color:var(--muted);font-size:14px;line-height:1.5}
+.mini{height:6px;border-radius:9px;background:var(--track);margin-top:8px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--c);width:0;transition:width .25s}
+.c0{--c:var(--c0)}.c1{--c:var(--c1)}.c2{--c:var(--c2)}.c3{--c:var(--c3)}.c4{--c:var(--c4)}.c5{--c:var(--c5)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:2px solid var(--c)}
+.bar-row{display:flex;align-items:center;gap:10px}
+.back{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 12px;font-size:15px;min-height:40px;white-space:nowrap}
+.sec-title{font-weight:700;color:var(--c);font-size:19px;flex:1;min-width:0}
+.stats{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:14px;margin-top:4px}
+.s-ok{color:var(--ok)}.s-no{color:var(--no)}.s-left{color:var(--muted)}
+.track{height:7px;border-radius:9px;background:var(--track);margin-top:6px;overflow:hidden;display:flex}
+.track i{display:block;height:100%;transition:width .25s}
+.t-ok{background:var(--ok)}.t-no{background:var(--no)}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-block:12px}
+.q[hidden]{display:none}
+.q-num{font-size:14px;color:var(--c);font-weight:700}
+.q-text{margin:0 0 10px;font-size:19px;line-height:1.7;font-weight:600}
+.opts{display:grid;gap:8px}
+.tf{grid-template-columns:1fr 1fr}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:right;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:18px;line-height:1.6;min-height:48px}
+.letter{flex:none;width:1.8em;height:1.8em;border-radius:50%;background:var(--chip);color:var(--muted);display:grid;place-items:center;font-size:14px;font-weight:700}
+.txt{min-width:0;overflow-wrap:anywhere}
+.tf .opt{justify-content:center;align-items:center;font-weight:700}
+.locked .opt{pointer-events:none}
+.locked .opt:not(.ok):not(.no){opacity:.55}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);font-weight:700}
+.opt.no{background:var(--no-bg);border-color:var(--no);color:var(--no);font-weight:700}
+.opt.ok .letter{background:var(--ok);color:var(--ok-bg)}
+.opt.no .letter{background:var(--no);color:var(--no-bg)}
+.why{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:16px;font-weight:700}
+.why.ok{color:var(--ok)}.why.no{color:var(--no)}
+.result{background:var(--surface);border:2px solid var(--c);border-radius:16px;padding:16px;margin-top:18px}
+.result h3{margin:0 0 4px;font-size:21px;color:var(--c)}
+.result p{margin:4px 0 10px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.result .act{background:var(--c);border-color:var(--c);color:var(--surface)}
+.result .act.alt{background:transparent;color:var(--c)}
+.sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 8px) 14px calc(env(safe-area-inset-bottom,0px) + 30px)}
+.sheet[hidden]{display:none}
+.sheet-in{max-width:720px;margin-inline:auto}
+.sheet-head{position:sticky;top:0;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0}
+.sheet-head h2{margin:0;font-size:22px;color:var(--c0)}
+.sg{background:var(--surface);border:1px solid var(--line);border-inline-start:8px solid var(--c);border-radius:14px;padding:10px 14px;margin-block:12px}
+.sg h3{margin:0 0 6px;font-size:19px;color:var(--c)}
+.sq{padding:8px 0;border-top:1px dashed var(--line)}
+.sq:first-of-type{border-top:0}
+.sqq{font-size:16px;color:var(--muted);line-height:1.7}
+.sqa{font-size:18px;font-weight:700;color:var(--ok);line-height:1.7}
+@media (prefers-reduced-motion:reduce){.mini i,.track i{transition:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div id="home">
+    <h1>اختبار الحوار والمناظرة الشامل</h1>
+    <p class="lead">اختر قسماً، أجب عن أسئلته، وفي نهايته أعد الأسئلة التي أخطأت فيها حتى تتقنها.</p>
+    <div class="toprow">
+      <button class="act" id="impBtn" type="button">أهم الأسئلة</button>
+      <button class="act alt" id="sumBtn" type="button">جميع الأسئلة (ملخص)</button>
+      <span class="total" id="total"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <div id="secView" hidden>
+    <div class="bar" id="bar">
+      <div class="bar-row"><button class="back" id="back" type="button">‹ الأقسام</button><div class="sec-title" id="secTitle"></div></div>
+      <div class="stats" role="status" aria-live="polite">
+        <span class="s-ok">صحيح <b id="cOk">٠</b></span><span class="s-no">خطأ <b id="cNo">٠</b></span><span class="s-left">المتبقي <b id="cLeft">٠</b></span>
+      </div>
+      <div class="track" aria-hidden="true"><i class="t-ok" id="tOk" style="width:0"></i><i class="t-no" id="tNo" style="width:0"></i></div>
+    </div>
+    <div id="cards"></div>
+    <div class="result" id="result" hidden>
+      <h3 id="rTitle"></h3><p id="rText"></p>
+      <div class="btns">
+        <button class="act" id="retryWrong" type="button">أعد الأسئلة التي أخطأت فيها</button>
+        <button class="act" id="nextSec" type="button">القسم التالي ›</button>
+        <button class="act alt" id="restart" type="button">ابدأ القسم من جديد</button>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="sheet" id="sheet" hidden role="dialog" aria-label="ملخص مختصر">
+  <div class="sheet-in">
+    <div class="sheet-head"><h2>ملخص جميع الأسئلة والأجوبة</h2><button class="act alt" id="closeSum" type="button">إغلاق</button></div>
+    <div id="sumBody"></div>
+  </div>
+</div>
+<script>
+(function(){
+var D=[
+["مفهوم الحوار","الدرس ١",[
+["المعنى الجامع لمادة (ح و ر) في اللغة:",["الجلوس","الرجوع","الغلبة","السكوت"],1,1],
+["«تحاوروا» عند ابن منظور بمعنى:",["تخاصموا","تراجعوا الكلام بينهم","تصالحوا","سكتوا"],1],
+["معنى ﴿إنه ظن أن لن يحور﴾ عند القرطبي:",["لن يموت","لن يرجع إلى ربه","لن يتكلم","لن يحاسب"],1],
+["عرّف ابن حميد الحوار بأنه مناقشة بين طرفين يقصد بها:",["الغلبة","تصحيح كلام وإظهار حجة وإثبات حق ودفع شبهة","الشهرة","التسلية"],1],
+["أركان الحوار الثلاثة:",["طرفان فأكثر، وقضية، وغاية","معلم ومتعلم وكتاب","دعوى ودليل وحكم","زمان ومكان وجمهور"],0,1],
+["غاية الحوار في التعريف الجامع:",["الإلزام","الوصول إلى الحق أو تقريب وجهات النظر","الإفحام","كسب الجمهور"],1]]],
+["الحوار والجدل","الدرس ١",[
+["الجدل لغة من:",["جدل الحبل إذا فتله وأحكمه","الرجوع","النظر","النظير"],0],
+["الجدل عند الجرجاني قياس من المشهورات أو المسلمات غرضه:",["التعارف","التعليم","إلزام الخصم","الترفيه"],2,1],
+["الجدل أخص من الحوار لأن فيه:",["اتفاقًا","قصد الإلزام وقد تشوبه مغالبة","تعليمًا","تعارفًا"],1],
+["من الجدال المحمود:",["﴿وجادلهم بالتي هي أحسن﴾","﴿وجادلوا بالباطل﴾","﴿ولا جدال في الحج﴾","﴿ما ضربوه لك إلا جدلا﴾"],0],
+["من الجدال المذموم:",["﴿وجادلهم بالتي هي أحسن﴾","﴿وجادلوا بالباطل ليدحضوا به الحق﴾","﴿ولا تجادلوا أهل الكتاب إلا بالتي هي أحسن﴾","﴿قل هاتوا برهانكم﴾"],1],
+["«الألد» عند ابن حجر من:",["يتنقل من مسلك لآخر فرارًا من الإلزام، ولا يقصد ظهور الحق","كثير الكلام","شديد البأس","طويل اللسان"],0,1]]],
+["الحوار والمناظرة والفروق","الدرس ١",[
+["المناظرة لغة من:",["النظر أو النظير","الرجوع","الجدل","الفتل"],0],
+["«ناظره» أي:",["خاصمه","صار نظيره في البحث","هرب منه","سكت"],1],
+["عرّف الشنقيطي المناظرة بأنها محاورة بين شخصين مختلفين مع:",["رغبة كل منهما في ظهور الحق","إرادة الغلبة فقط","الاتفاق","السكوت"],0],
+["تستلزم المناظرة:",["اتفاقًا سابقًا","اختلافًا سابقًا بين طرفين محددين في مسألة بعينها","جمهورًا غفيرًا","حاكمًا"],1,1],
+["من شروط المناظرة:",["دعوى ودليل ومناقشة وطرفان متكافئان وموضوع محدد","الشهرة","الغلبة","كثرة الجمهور"],0],
+["أعم المصطلحات الثلاثة:",["الحوار","الجدل","المناظرة","الخصومة"],0,1],
+["كل مناظرة حوار وليس كل حوار مناظرة.",["صح","خطأ"],0,1],
+["القاعدة الصحيحة:",["كل حوار جدل","كل مناظرة جدل، وكل جدل حوار، وليس العكس بلازم","كل جدل مناظرة","الثلاثة سواء"],1]]],
+["أهمية الحوار ومكانته","الدرس ١",[
+["﴿ولا يزالون مختلفين * إلا من رحم ربك﴾ يدل على أن الاختلاف:",["سنة ماضية","طارئ","يرتفع بالحوار","مذموم كله"],0],
+["المستثنون في الآية عند ابن كثير هم:",["الأغنياء","أهل الاجتماع على الحق","العلماء فقط","الأنبياء فقط"],1],
+["الحوار هو الوسيلة الشرعية لـ:",["إلغاء الاختلاف","إدارة الاختلاف","إخفاء الخلاف","الغلبة"],1,1],
+["الجدال بالتي هي أحسن في آية النحل لـ:",["المستعد المتقبل","المتردد المستزيد","المخالف المعاند أو الشاك","الصغير"],2,1],
+["الحكمة تُسلك مع:",["المعاند","المتردد المستزيد","المستعد المتقبل","الكافر"],2],
+["الحوار بالحجة عند ابن تيمية:",["غاية في ذاته","من صور الجهاد وسيلة إلى الحق","ترف","محرم"],1],
+["استثنى الله في آية العنكبوت من أهل الكتاب:",["الذين ظلموا منهم","النساء","الصبيان","العلماء"],0],
+["ثمرات المناظرة عند الذهبي:",["كشف الحق، وإفادة العالم، وتنبيه الغافل","كسب الشهرة","إفحام الخصم","كثرة الأتباع"],0,1]]],
+["الحوار في القرآن والسنة","الدرس ١",[
+["دعا نوح قومه:",["ليلًا ونهارًا","نهارًا فقط","سرًّا فقط","جهرًا فقط"],0],
+["كرر إبراهيم لأبيه «يا أبت» أربع مرات، وفيه:",["لين مع قوة حجة","غلظة","سخرية","إعراض"],0],
+["﴿فأت بها من المغرب فبهت الذي كفر﴾ يدل على:",["الاستسلام","العدول إلى الدليل الأجلى عند تعنت الخصم","ترك الحوار","الغلظة"],1,1],
+["﴿فقولا له قولا لينا﴾ في حوار:",["موسى مع فرعون","نوح مع قومه","إبراهيم مع أبيه","النبي ﷺ مع عتبة"],0],
+["الأصل في حوار المخالف مهما بلغ عتوه:",["الغلظة","اللين","الإعراض","الشدة"],1],
+["عرض عتبة بن ربيعة المال والملك فتلا عليه النبي ﷺ:",["صدر فصلت","آية الكرسي","الفاتحة","الإخلاص"],0],
+["نزل صدر آل عمران وآية المباهلة في حوار النبي ﷺ مع:",["وفد نجران","يهود المدينة","قريش","المنافقين"],0,1],
+["سأل يهود المدينة النبي ﷺ عن:",["الروح وأصحاب الكهف وذي القرنين","الصلاة","الزكاة","الحج"],0],
+["أسلم من علماء يهود المدينة:",["عبد الله بن سلام","كعب","زيد","سلمان"],0]]],
+["آثار الحوار","الدرس ١",[
+["من الآثار الفردية للحوار:",["تصحيح التصورات المغلوطة وتثبيت المؤمن عن يقين","الإصلاح بين المتخاصمين","صيانة وحدة الأمة","نزع أسباب التنازع"],0],
+["من الآثار الدعوية للحوار:",["بلوغ الحجة وإزالة الشبهات واستمالة القلوب","تهذيب اللسان","وحدة الأمة","تنمية ملكة النظر"],0],
+["من الآثار الاجتماعية للحوار:",["الإصلاح بين المتخاصمين وصيانة وحدة الأمة","تصحيح التصورات","بلوغ الحجة","استمالة القلوب"],0],
+["قصة الفتى الذي استأذن في الزنا مثال على:",["الزجر المجرد","الحوار الهادئ بأسئلة متدرجة","الإعراض","العقوبة"],1,1]]],
+["أصول الحوار المنهجية","الدرس ٢",[
+["الأصول المنهجية هي:",["قواعد كلية يسير الحوار على هديها حتى لا يكون مماحكة","آداب الأخلاق","أحكام الحلال والحرام","تعريفات لغوية"],0],
+["«إن كنت ناقلًا فالصحة، وإن كنت مدعيًا فالدليل» أصله:",["سلوك الطرق العلمية في الاستدلال","التجرد","التكافؤ","الاعتدال"],0,1],
+["من صور التناقض:",["وصفهم النبي ﷺ بالسحر تارة وبالجنون تارة","وصفه بالكذب فقط","وصفه بالشعر فقط","إنكار القرآن"],0],
+["الاتفاق على المنطلقات المشتركة يكون:",["بعد النتيجة","قبل الشروع في الحوار","عند الخلاف فقط","لا يلزم"],1],
+["﴿إني قد جاءني من العلم ما لم يأتك﴾ يدل على:",["التجرد","أهلية المحاور وتكافؤ الطرفين","الاعتدال","الإنصاف"],1],
+["شبّه الغزالي طالب الحق بـ:",["ناشد ضالة","طالب ماء","راعٍ","مسافر"],0],
+["لا يفرق ناشد الضالة بين ظهورها على يده أو يد:",["خصمه","معاونه","الحاكم","الجمهور"],1],
+["الشرط في نجاح الحوار:",["موافقة أحدهما الآخر","أن يبقى الخلاف سائغًا","الغلبة","كثرة الأدلة"],1,1],
+["القطعيات في الحوار:",["قابلة للمساومة","ليست محلًا للمساومة","تُترك","تُجادل دائمًا"],1]]],
+["آداب الحوار الأخلاقية","الدرس ٢",[
+["قد يكون الإخلال بالآداب أشد ضررًا لأن المحاور:",["قد يصيب حجته ويخطئ أدبه فتذهب حجته","لا يتكلم","لا يستدل","يغضب"],0],
+["الأصل الجامع لآداب الحوار:",["الذكاء","الفصاحة","الإخلاص لله وقصد الحق","الشهرة"],2,1],
+["الحوار بلا استماع يسمى:",["حوار طرشان","مناظرة","جدلًا","تعارفًا"],0],
+["«إنك تأتي قومًا أهل كتاب» أدب:",["مراعاة حال المخاطب","الإنصاف","الحلم","الاستماع"],0,1],
+["«صدقك وهو كذوب» أدب:",["تقدير الخصم وإنصافه بذكر ما فيه من حق","الحلم","الاستماع","الإخلاص"],0,1],
+["قال ابن عقيل: «وليتناوبا الكلام»:",["مغالبة","مناوبة لا مناهبة","مساومة","مجاملة"],1],
+["الجمهور الغفير مدعاة للمكابرة والغلبة.",["صح","خطأ"],0],
+["﴿فصبروا على ما كذبوا وأوذوا﴾ في أدب:",["الحلم والصبر","الإخلاص","الاستماع","الإنصاف"],0]]],
+["أحكام الحوار وضوابطه","الدرس ٢",[
+["الأصل في الحوار:",["الحرمة","الكراهة","الجواز، وقد يستحب أو يجب","الإباحة فقط"],2,1],
+["من المخاطبين بالحوار عند ابن تيمية:",["أهل الذمة والهدنة ومن لا يجوز قتاله بالسيف","المسلمون فقط","العلماء فقط","الأغنياء"],0],
+["﴿يجادلون في آيات الله بغير سلطان أتاهم﴾ تدل على حرمة:",["الجدال بغير علم ولا حجة","كل جدال","الحوار","السؤال"],0,1],
+["التنزل الجدلي هو:",["الموافقة على أصول الخصم الباطلة","مخاطبة الخصم بما يعتقده لبيان فساد قوله لا إقرارًا","ترك الدليل","السخرية"],1,1],
+["مخاطبة المخالف بلغته واصطلاحه تجوز:",["للحاجة إن صحت المعاني","مطلقًا","لا تجوز","بلا حاجة"],0],
+["قطعيات الدين مع المؤمن بها:",["محل مساومة","ليست محل حوار في أصلها","تُترك","تُجادل"],1,1],
+["الحوار مع الملحد والمشرك يكون في:",["إثبات الأصول ذاتها","فرعياتها","الآداب","لا يجوز"],0],
+["يجوز الإغلاظ عند:",["كل خلاف","الخلاف الفقهي","الغضب","ظهور الظلم والعناد البين"],3],
+["﴿لا يحب الله الجهر بالسوء من القول إلا من ظلم﴾ أصل في:",["جواز الإغلاظ عند الظلم","تحريم اللين","الاستماع","الإخلاص"],0],
+["﴿فاصدع بما تؤمر﴾ يفيد:",["تحريم اللين","وجوب الصدع بالحق وعدم كتمانه مجاملة","ترك الحوار","الإسرار"],1]]],
+["مناظرة ابن عباس والخوارج","الدرس ٣",[
+["اعتزلت الخوارج عليًا بعد:",["التحكيم","الجمل","الحديبية","بدر"],0],
+["دخل ابن عباس عليهم:",["بأحسن حلة وقت فراغهم","بثياب رثة","ليلًا","وقت العبادة"],0],
+["احتج على حسن هيئته بـ:",["﴿قل من حرم زينة الله﴾","﴿ولباس التقوى﴾","﴿فاصدع﴾","﴿قل هاتوا برهانكم﴾"],0],
+["ليس من اعتراضات الخوارج:",["تحكيم الرجال في أمر الله","القتال بلا سبي ولا غنيمة","ترك الصلاة","محو لقب أمير المؤمنين"],2],
+["استوثق منهم قبل الرد بأنهم:",["يرجعون إن قرأ عليهم من الكتاب والسنة ما يرد قولهم","يسكتون","يحكّمون الناس","يشهدون"],0,1],
+["في الرد الأول استدل بتحكيم الرجال في:",["الصلاة","ربع درهم في جزاء الصيد والشقاق بين الزوجين","الزكاة","الحج"],1],
+["في الرد الثاني سألهم عن:",["الصلاة","سبي عائشة رضي الله عنها","الزكاة","الحج"],1],
+["في الرد الثالث: النبي ﷺ محا «رسول الله» يوم:",["الحديبية","بدر","الخندق","حنين"],0],
+["عدد من رجع منهم:",["ألف","ألفان","ثلاثة آلاف","خمسمائة"],1,1],
+["الثمرة من حسن الاستماع وإجابة كل اعتراض على حدة:",["الرجوع","الغضب","الانصراف","القتال"],0]]],
+["محنة الإمام أحمد","الدرس ٣",[
+["محنة أحمد كانت في مسألة:",["القدر","الإمامة","خلق القرآن","الرؤية"],2,1],
+["تبنى القول بخلق القرآن:",["المعتزلة","الخوارج","الشيعة","المرجئة"],0],
+["أجاب أكثر العلماء:",["تقية","رغبة","جهلًا","عنادًا"],0],
+["حجة أحمد: علم الله غير مخلوق، والقرآن:",["من علم الله","ليس علمًا","منفصل","مخلوق"],0],
+["ردّ أحمد على ابن أبي دؤاد:",["بالسب","بأسلوبه نفسه دون سب","بالسكوت","بالموافقة"],1],
+["ثبوت أحمد تحت التعذيب أصله:",["القطعيات لا تساوم","التنزل الجدلي","الاعتدال","التكافؤ"],0,1]]],
+["مناظرة الشافعي ومحمد بن الحسن","الدرس ٣",[
+["أبى الشافعي المناظرة أولًا لأن المناظرة:",["تنكت في القلب","تضيع الوقت","لا فائدة منها","محرمة"],0,1],
+["شهد بشر المريسي للشافعي لأن الحق:",["يُعرف ولو من لسان المخالف","لا يُعرف","يُنسى","يُخفى"],0],
+["بقيت المودة بينهما لأن الخلاف:",["اجتهادي","قطعي","في العقيدة","شخصي"],0,1],
+["أدب الشافعي في الحوار:",["حاول تجنب المناظرة حفظًا للمودة، ولما تعينت ناظر طلبًا للحق","طلب المناظرة","غلب خصمه","أعرض"],0]]],
+["مناظرة المعصومي","الدرس ٣",[
+["في عهد:",["لينين","ستالين","هتلر","نابليون"],0],
+["مكانها:",["موسكو","بخارى","القاهرة","طشقند"],3,1],
+["عدد الحاضرين:",["أكثر من عشرة آلاف","مئة","ألف","مئتان"],0],
+["حجة الزعيم: أنكر الله لأن آلات الرصد:",["ما وجدت شيئًا","وجدته","لا تعمل","حرّمت"],0],
+["ألزمه المعصومي بأن الروح والعقل:",["موجودان وإن لم يُريا بالآلات","غير موجودين","مادة","وهم"],0,1],
+["أحال الزعيم عند عجزه على:",["أستاذ له في موسكو","القاضي","الحاضرين","الصمت"],0]]]
+];
+
+var imp=[];D.forEach(function(s){s[2].forEach(function(it){if(it[3])imp.push(it)})});D.push(["أهم الأسئلة","أهم الأسئلة",imp,1]);
+var LET=["أ","ب","ج","د"];
+function AR(n){try{return Number(n).toLocaleString("ar-EG")}catch(e){return String(n)}}
+function $(i){return document.getElementById(i)}
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+var secs=[],cur=-1,total=0;
+D.forEach(function(s,si){
+  var box=el("div");box.hidden=true;var recs=[];
+  s[2].forEach(function(it,qi){
+    if(!s[3])total++;
+    var tf=it[1].length==2,card=el("div","q c"+(si%6));
+    var rec={q:{q:it[0],o:it[1],a:it[2]},card:card,opts:[],ans:null,first:null,why:null};
+    card.appendChild(el("div","q-num","السؤال "+AR(qi+1)+" من "+AR(s[2].length)+" · "+s[1]));
+    card.appendChild(el("p","q-text",it[0]));
+    var opts=el("div","opts"+(tf?" tf":""));
+    it[1].forEach(function(o,oi){
+      var b=el("button","opt");b.type="button";
+      if(!tf)b.appendChild(el("span","letter",LET[oi]));
+      b.appendChild(el("span","txt",o));
+      b.addEventListener("click",function(){choose(si,rec,oi)});
+      opts.appendChild(b);rec.opts.push(b);
+    });
+    card.appendChild(opts);box.appendChild(card);recs.push(rec);
+  });
+  $("cards").appendChild(box);secs.push({t:s[0],box:box,recs:recs});
+  var tile=el("button","tile c"+(si%6));tile.type="button";
+  tile.innerHTML='<b><span></span><span id="tp'+si+'"></span></b><small>'+AR(s[2].length)+' أسئلة · '+s[1]+'</small><div class="mini"><i id="tb'+si+'"></i></div>';
+  tile.querySelector("span").textContent=s[0];
+  if(s[3])tile.style.display="none";
+  tile.addEventListener("click",function(){openSec(si)});
+  $("grid").appendChild(tile);
+});
+$("total").textContent=AR(total)+" سؤالاً في "+AR(D.length-1)+" قسماً";
+function paint(rec){
+  var right=rec.ans===rec.q.a;rec.card.classList.add("locked");
+  rec.opts.forEach(function(b,i){b.classList.remove("ok","no");if(i===rec.q.a)b.classList.add("ok");if(i===rec.ans&&!right)b.classList.add("no")});
+  if(!rec.why){rec.why=el("div","why "+(right?"ok":"no"),right?"إجابة صحيحة ✓":"إجابة خاطئة، والصواب: "+rec.q.o[rec.q.a]);rec.card.appendChild(rec.why)}
+}
+function unpaint(rec){rec.ans=null;rec.card.classList.remove("locked");rec.opts.forEach(function(b){b.classList.remove("ok","no")});if(rec.why){rec.why.remove();rec.why=null}}
+function counts(si){var ok=0,no=0;secs[si].recs.forEach(function(r){if(r.ans===null)return;if(r.ans===r.q.a)ok++;else no++});return{ok:ok,no:no,left:secs[si].recs.length-ok-no,n:secs[si].recs.length}}
+function choose(si,rec,oi){
+  if(rec.ans!==null)return;
+  rec.ans=oi;if(rec.first===null)rec.first=(oi===rec.q.a);
+  paint(rec);update(si);
+  var pending=secs[si].recs.some(function(r){return !r.card.hidden&&r.ans===null});
+  if(!pending){showResult(si,counts(si));setTimeout(function(){$("result").scrollIntoView({behavior:"smooth",block:"center"})},350)}
+}
+function showResult(si,c){
+  var firstOk=secs[si].recs.filter(function(r){return r.first===true}).length,res=$("result");
+  res.hidden=false;res.className="result c"+(si%6);
+  if(c.no===0){$("rTitle").textContent="أحسنت، أتقنت هذا القسم ✓";$("rText").textContent="أجبت صحيحاً من أول مرة عن "+AR(firstOk)+" من "+AR(c.n)+" أسئلة، وأتقنت الباقي بعد الإعادة."}
+  else{$("rTitle").textContent="انتهى القسم";$("rText").textContent="الصحيح الآن "+AR(c.ok)+" من "+AR(c.n)+". أخطأت في "+AR(c.no)+(c.no===1?" سؤال":c.no===2?" سؤالين":" أسئلة")+"، أعدها الآن لتثبت."}
+  $("retryWrong").hidden=(c.no===0);$("nextSec").hidden=(si>=secs.length-1);
+}
+function update(si){
+  var c=counts(si);
+  $("cOk").textContent=AR(c.ok);$("cNo").textContent=AR(c.no);$("cLeft").textContent=AR(c.left);
+  $("tOk").style.width=(c.ok/c.n*100)+"%";$("tNo").style.width=(c.no/c.n*100)+"%";refreshTile(si);
+}
+function refreshTile(si){var c=counts(si);$("tp"+si).textContent=c.ok===c.n?"✓":(c.ok||c.no?AR(c.ok)+" / "+AR(c.n):"");$("tb"+si).style.width=(c.ok/c.n*100)+"%"}
+function openSec(si){
+  cur=si;secs.forEach(function(s,i){s.box.hidden=(i!==si)});
+  $("home").hidden=true;$("secView").hidden=false;$("bar").className="bar c"+(si%6);
+  $("secTitle").textContent=secs[si].t;$("result").hidden=true;update(si);
+  var c=counts(si);if(c.left===0)showResult(si,c);window.scrollTo(0,0);
+}
+$("back").addEventListener("click",function(){$("secView").hidden=true;$("home").hidden=false;cur=-1;window.scrollTo(0,0)});
+$("nextSec").addEventListener("click",function(){if(cur<secs.length-1)openSec(cur+1)});
+$("retryWrong").addEventListener("click",function(){
+  var first=null;
+  secs[cur].recs.forEach(function(r){if(r.ans===r.q.a){r.card.hidden=true}else{unpaint(r);r.card.hidden=false;if(!first)first=r}});
+  $("result").hidden=true;update(cur);if(first)first.card.scrollIntoView({behavior:"auto",block:"start"});
+});
+$("restart").addEventListener("click",function(){secs[cur].recs.forEach(function(r){unpaint(r);r.first=null;r.card.hidden=false});$("result").hidden=true;update(cur);window.scrollTo(0,0)});
+var html="";
+D.forEach(function(s,si){
+  if(s[3])return;var ks=s[2];
+  var g=el("div","sg c"+(si%6));g.appendChild(el("h3","",s[0]));
+  ks.forEach(function(it){var r=el("div","sq");r.appendChild(el("div","sqq",it[0]));r.appendChild(el("div","sqa",it[1][it[2]]));g.appendChild(r)});
+  $("sumBody").appendChild(g);
+});
+$("impBtn").addEventListener("click",function(){openSec(D.length-1)});
+$("sumBtn").addEventListener("click",function(){$("sheet").hidden=false;$("sheet").scrollTop=0});
+$("closeSum").addEventListener("click",function(){$("sheet").hidden=true});
+D.forEach(function(s,i){refreshTile(i)});
+})();
+</script>
+</body>
+</html>
