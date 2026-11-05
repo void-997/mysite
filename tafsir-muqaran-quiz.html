@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>اختبار التفسير المقارن</title>
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#070b1a;--surface:#121a33;--ink:#f2f5ff;--muted:#a9b4d6;--line:#27304f;--chip:#1d2748;
+  --ok:#5cf2a5;--ok-bg:#0f3a2c;--no:#ff7a90;--no-bg:#431a26;--focus:#ffd479;--track:#243055;
+  --c0:#ffd479;--c1:#b794ff;--c2:#ff9d6e;--c3:#7be3a6;--c4:#ff86c8;--c5:#6fd8ff;color-scheme:dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#070b1a;--surface:#121a33;--ink:#f2f5ff;--muted:#a9b4d6;--line:#27304f;--chip:#1d2748;
+    --ok:#5cf2a5;--ok-bg:#0f3a2c;--no:#ff7a90;--no-bg:#431a26;--focus:#ffd479;--track:#243055;
+    --c0:#ffd479;--c1:#b794ff;--c2:#ff9d6e;--c3:#7be3a6;--c4:#ff86c8;--c5:#6fd8ff;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#070b1a;--surface:#121a33;--ink:#f2f5ff;--muted:#a9b4d6;--line:#27304f;--chip:#1d2748;
+  --ok:#5cf2a5;--ok-bg:#0f3a2c;--no:#ff7a90;--no-bg:#431a26;--focus:#ffd479;--track:#243055;
+  --c0:#ffd479;--c1:#b794ff;--c2:#ff9d6e;--c3:#7be3a6;--c4:#ff86c8;--c5:#6fd8ff;color-scheme:dark;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
+  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;font-size:18px;line-height:1.8;
+  padding:0 max(14px,env(safe-area-inset-left,0px)) 56px max(14px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:720px;margin-inline:auto;min-width:0}
+h1{font-size:26px;line-height:1.4;margin:22px 0 2px;color:var(--c0);text-wrap:balance}
+.lead{margin:0 0 14px;color:var(--muted);font-size:16px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.act{border:2px solid var(--c0);background:var(--c0);color:var(--surface);border-radius:12px;padding:9px 18px;font-weight:700;font-size:16px;min-height:44px}
+.act.alt{background:transparent;color:var(--c0)}
+.act[hidden]{display:none}
+.toprow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
+.total{color:var(--muted);font-size:15px}
+.grid{display:grid;gap:10px;margin-top:10px}
+.tile{display:block;width:100%;text-align:right;background:var(--surface);border:1px solid var(--line);
+  border-inline-start:8px solid var(--c);border-radius:14px;padding:12px 14px;min-width:0}
+.tile b{display:flex;justify-content:space-between;gap:10px;font-size:19px;color:var(--c)}
+.tile small{display:block;color:var(--muted);font-size:14px;line-height:1.5;margin-top:2px}
+.mini{height:6px;border-radius:9px;background:var(--track);margin-top:8px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--c);width:0;transition:width .25s}
+.c0{--c:var(--c0)}.c1{--c:var(--c1)}.c2{--c:var(--c2)}.c3{--c:var(--c3)}.c4{--c:var(--c4)}.c5{--c:var(--c5)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:2px solid var(--c)}
+.bar-row{display:flex;align-items:center;gap:10px}
+.back{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 12px;font-size:15px;min-height:40px;white-space:nowrap}
+.sec-title{font-weight:700;color:var(--c);font-size:19px;flex:1;min-width:0}
+.stats{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:14px;margin-top:4px;font-variant-numeric:tabular-nums}
+.s-ok{color:var(--ok)}.s-no{color:var(--no)}.s-left{color:var(--muted)}
+.track{height:7px;border-radius:9px;background:var(--track);margin-top:6px;overflow:hidden;display:flex}
+.track i{display:block;height:100%;transition:width .25s}
+.t-ok{background:var(--ok)}.t-no{background:var(--no)}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-block:12px;min-width:0}
+.q[hidden]{display:none}
+.q-num{font-size:14px;color:var(--c);font-weight:700;margin-bottom:2px}
+.q-text{margin:0 0 10px;font-size:19px;line-height:1.7;font-weight:600}
+.opts{display:grid;gap:8px}
+.tf{grid-template-columns:1fr 1fr}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;min-width:0;text-align:right;background:var(--surface);
+  border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:18px;line-height:1.6;min-height:48px}
+.letter{flex:none;width:1.8em;height:1.8em;border-radius:50%;background:var(--chip);color:var(--muted);display:grid;place-items:center;font-size:14px;font-weight:700}
+.txt{min-width:0;overflow-wrap:anywhere}
+.tf .opt{justify-content:center;align-items:center;font-weight:700}
+.locked .opt{pointer-events:none}
+.locked .opt:not(.ok):not(.no){opacity:.55}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);font-weight:700}
+.opt.no{background:var(--no-bg);border-color:var(--no);color:var(--no);font-weight:700}
+.opt.ok .letter{background:var(--ok);color:var(--ok-bg)}
+.opt.no .letter{background:var(--no);color:var(--no-bg)}
+.why{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:16px;line-height:1.85}
+.verdict{display:block;font-weight:700;margin-bottom:2px}
+.verdict.ok{color:var(--ok)}.verdict.no{color:var(--no)}
+.e{color:var(--c);font-weight:700}
+.result{background:var(--surface);border:2px solid var(--c);border-radius:16px;padding:16px;margin-top:18px}
+.result h3{margin:0 0 4px;font-size:21px;color:var(--c)}
+.result p{margin:4px 0 10px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.result .act{background:var(--c);border-color:var(--c)}
+.result .act.alt{background:transparent;color:var(--c)}
+.sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;
+  padding:calc(env(safe-area-inset-top,0px) + 8px) max(14px,env(safe-area-inset-left,0px)) calc(env(safe-area-inset-bottom,0px) + 30px) max(14px,env(safe-area-inset-right,0px))}
+.sheet[hidden]{display:none}
+.sheet-in{max-width:720px;margin-inline:auto}
+.sheet-head{position:sticky;top:0;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;z-index:2}
+.sheet-head h2{margin:0;font-size:22px;color:var(--c0)}
+.sg{background:var(--surface);border:1px solid var(--line);border-inline-start:8px solid var(--c);border-radius:14px;padding:10px 14px;margin-block:12px}
+.sg h3{margin:0 0 6px;font-size:19px;color:var(--c)}
+.sq{padding:8px 0;border-top:1px dashed var(--line)}
+.sq:first-of-type{border-top:0}
+.sqq{font-size:16px;color:var(--muted);line-height:1.7}
+.sqa{font-size:18px;font-weight:700;color:var(--ok);line-height:1.7}
+@media (prefers-reduced-motion: reduce){.mini i,.track i{transition:none}}
+@media (max-width:380px){body{font-size:17px}.q-text,.opt{font-size:17px}}
+
+body{background:radial-gradient(900px 520px at 90% -8%,rgba(0,214,180,.20),transparent 60%),radial-gradient(800px 520px at 0% 8%,rgba(138,92,255,.26),transparent 60%),radial-gradient(900px 600px at 50% 115%,rgba(255,190,90,.14),transparent 60%),var(--bg);background-attachment:fixed}
+h1{background:linear-gradient(90deg,#ffe29a,#7ff5d8 50%,#c3a8ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:30px}
+.tile,.q,.sg,.result{background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.03));-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}
+.tile{transition:transform .15s,box-shadow .15s}
+.tile:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 0 1px var(--c)}
+.opt{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);transition:transform .12s,background .15s}
+.opt:hover{background:rgba(255,255,255,.1);transform:translateX(-3px)}
+.opt.ok{background:rgba(60,220,150,.16);box-shadow:0 0 18px rgba(60,220,150,.25)}
+.opt.no{background:rgba(255,90,120,.16);box-shadow:0 0 18px rgba(255,90,120,.22)}
+.act{background:linear-gradient(135deg,var(--c0),#ff9d6e);border:0;color:#1b1030;box-shadow:0 6px 20px rgba(255,190,90,.3)}
+.act.alt{background:transparent;border:2px solid var(--c0);color:var(--c0);box-shadow:none}
+.result .act{background:var(--c);color:#14122a;border:0;box-shadow:none}
+.result .act.alt{background:transparent;color:var(--c);border:2px solid var(--c)}
+.bar{background:rgba(7,11,26,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.sheet{background:radial-gradient(800px 500px at 90% -8%,rgba(0,214,180,.18),transparent 60%),radial-gradient(700px 500px at 0% 8%,rgba(138,92,255,.22),transparent 60%),var(--bg)}
+.sheet-head{background:rgba(7,11,26,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.t-ok{box-shadow:0 0 10px var(--ok)}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.q,.tile,.sg{animation:up .35s ease both}
+@media (prefers-reduced-motion:reduce){.q,.tile,.sg{animation:none}.tile,.opt{transition:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div id="home">
+    <h1>اختبار التفسير المقارن</h1>
+    <p class="lead">اختر قسماً، أجب عن أسئلته، وفي نهايته أعد الأسئلة التي أخطأت فيها حتى تتقنها.</p>
+    <div class="toprow">
+      <button class="act" id="allBtn" type="button">ملخص جميع الأسئلة</button>
+      <button class="act alt" id="sumBtn" type="button">ملخص أهم الأسئلة</button>
+      <span class="total" id="total"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="secView" hidden>
+    <div class="bar" id="bar">
+      <div class="bar-row">
+        <button class="back" id="back" type="button">‹ الأقسام</button>
+        <div class="sec-title" id="secTitle"></div>
+      </div>
+      <div class="stats" role="status" aria-live="polite">
+        <span class="s-ok">صحيح <b id="cOk">٠</b></span>
+        <span class="s-no">خطأ <b id="cNo">٠</b></span>
+        <span class="s-left">المتبقي <b id="cLeft">٠</b></span>
+      </div>
+      <div class="track" aria-hidden="true"><i class="t-ok" id="tOk" style="width:0"></i><i class="t-no" id="tNo" style="width:0"></i></div>
+    </div>
+    <div id="cards"></div>
+    <div class="result" id="result" hidden>
+      <h3 id="rTitle"></h3>
+      <p id="rText"></p>
+      <div class="btns">
+        <button class="act" id="retryWrong" type="button">أعد الأسئلة التي أخطأت فيها</button>
+        <button class="act" id="nextSec" type="button">القسم التالي ›</button>
+        <button class="act alt" id="restart" type="button">ابدأ القسم من جديد</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-label="ملخص">
+  <div class="sheet-in">
+    <div class="sheet-head"><h2 id="sumTitle">ملخص أهم الأسئلة</h2><button class="act alt" id="closeSum" type="button">إغلاق</button></div>
+    <div id="sumBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var D = [{"t": "المحصنات والمتعة (٢٤)", "items": [{"q": "﴿والمحصنات من النساء﴾ هنا:", "o": ["الحرائر", "ذوات الأزواج", "العفائف", "الأرامل"], "a": 1, "w": "ذوات الأزواج لا يحل للغير نكاحهن قبل مفارقة الأزواج، وهي السابعة من المحرمات بالسبب."}, {"q": "السبايا ذوات الأزواج في دار الحرب يحل وطؤهن لمالكهن:", "o": ["فوراً", "بعد طلاق الزوج", "بعد الاستبراء", "بعد سنة"], "a": 2, "w": "لأن بالسبي يرتفع النكاح بينها وبين زوجها."}, {"q": "المراد بـ﴿إلا ما ملكت أيمانكم﴾ عند أبي سعيد:", "o": ["الحرائر", "السبايا اللاتي سُبين ولهن أزواج في دار الحرب", "الإماء المتزوجات", "الجواري كلهن"], "a": 1, "w": "فيحل لمالكهن وطؤهن بعد الاستبراء."}, {"q": "على قول أن المحصنات الحرائر، فمعنى الآية:", "o": ["ما فوق الأربع حرام إلا ما ملكت أيمانكم", "لا يجوز نكاح الحرائر", "يجوز خمس زوجات", "لا حد في الحرائر"], "a": 0, "w": "فإنه لا عدد عليكم في الجواري."}, {"q": "﴿كتاب الله عليكم﴾:", "o": ["نصب على المصدر: كتب عليكم كتاب الله", "رفع مبتدأ", "جر بالإضافة", "حال"], "a": 0, "w": "وقيل: نصب على الإغراء أي الزموا كتاب الله، أي فرض الله."}, {"q": "﴿ما وراء ذلكم﴾:", "o": ["ما قبل المحرمات", "ما سوى المحرمات المذكورة", "الإماء فقط", "الحرائر فقط"], "a": 1, "w": "أي أحل الله لكم ما سوى ذلكم."}, {"q": "﴿أن تبتغوا بأموالكم﴾:", "o": ["تتاجروا", "تقرضوا", "تنكحوا بصداق أو تشتروا بثمن", "تهبوا"], "a": 2, "w": "أي تطلبوا."}, {"q": "﴿محصنين غير مسافحين﴾:", "o": ["أغنياء غير فقراء", "متزوجين متعففين غير زانين", "أحراراً غير عبيد", "مسلمين غير كفار"], "a": 1, "w": "المسافحة من سَفْح الماء وهو المني."}, {"q": "﴿فما استمتعتم به منهن﴾ عند الحسن ومجاهد:", "o": ["نكاح المتعة", "الخلوة", "الانتفاع بالجماع في النكاح الصحيح فآتوهن مهورهن", "اللمس"], "a": 2, "w": "فآتوهن أجورهن أي مهورهن."}, {"q": "قال آخرون: ﴿فما استمتعتم﴾ هو:", "o": ["النكاح الصحيح", "نكاح المتعة", "الخلع", "الرجعة"], "a": 1, "w": "النكاح إلى مدة، فإذا انقضت بانت بلا طلاق."}, {"q": "من أحكام المتعة:", "o": ["طلاق ثلاث", "بينونة بانقضاء المدة بلا طلاق وتستبرئ رحمها ولا ميراث", "ميراث بين الزوجين", "عدة وفاة"], "a": 1, "w": "قالوا: وليس بينهما ميراث."}, {"q": "حكم المتعة في ابتداء الإسلام:", "o": ["محرمة", "واجبة", "مباحة ثم نهى عنها رسول الله ﷺ", "مكروهة"], "a": 2, "w": "كان ذلك مباحاً في ابتداء الإسلام."}, {"q": "مذهب عامة أهل العلم في نكاح المتعة:", "o": ["مباح", "حرام والآية منسوخة", "مكروه", "مباح للمسافر"], "a": 1, "w": "قال: وإلى هذا ذهب عامة أهل العلم."}, {"q": "من كان يذهب إلى أن الآية محكمة ويرخّص في نكاح المتعة؟", "o": ["عمر", "علي", "ابن عباس", "ابن مسعود"], "a": 2, "w": "وقيل: إنه رجع عن ذلك."}, {"q": "قيل في ابن عباس رضي الله عنهما:", "o": ["أصرّ على إباحة المتعة", "رجع عن ذلك", "منع المتعة دائماً", "لم يتكلم فيها"], "a": 1, "w": "وقيل: إن ابن عباس رضي الله عنهما رجع عن ذلك."}, {"q": "﴿ولا جناح فيما تراضيتم به﴾ على المتعة، بعد تمام الأجل:", "o": ["تزيد المرأة في الأجل ويزيد الرجل في الأجر برضاهما", "تلزم العدة", "يثبت الميراث", "يقع الطلاق"], "a": 0, "w": "وإن لم يتراضيا فارقها."}, {"q": "﴿ولا جناح فيما تراضيتم به﴾ على النكاح الصحيح:", "o": ["الإبراء عن المهر والافتداء والاعتياض", "تأخير العدة", "نقص العدد", "الرجعة"], "a": 0, "w": "﴿إن الله كان عليماً حكيماً﴾."}]}, {"t": "نكاح الإماء (٢٥)", "items": [{"q": "﴿طولاً﴾:", "o": ["طول القامة", "فضلاً وسعة", "مدة", "عدة"], "a": 1, "w": "أي القدرة على مهر الحرة."}, {"q": "﴿المحصنات المؤمنات﴾ هنا:", "o": ["الأرامل", "العفائف", "الحرائر المؤمنات", "الكتابيات"], "a": 2, "w": "أن ينكح الحرائر المؤمنات."}, {"q": "﴿من فتياتكم المؤمنات﴾:", "o": ["إمائكم", "بناتكم", "نسائكم", "جيرانكم"], "a": 0, "w": "أي إمائكم المؤمنات."}, {"q": "من لم يقدر على مهر الحرة المؤمنة:", "o": ["لا ينكح", "فليتزوج الأمة المؤمنة", "يتمتع", "يصبر مطلقاً"], "a": 1, "w": "فليتزوج الأمة المؤمنة."}, {"q": "شرطا نكاح الحر للأمة:", "o": ["عدم مهر حرة وخوفه الزنا", "الفقر وإذن السلطان", "عدم الولي", "إسلام الأمة فقط"], "a": 0, "w": "وهو قول جابر وطاووس وعمرو بن دينار، وإليه ذهب مالك والشافعي."}, {"q": "﴿العنت﴾ هنا:", "o": ["الفقر", "المرض", "الزنا", "الظلم"], "a": 2, "w": "أن يكون خائفاً على نفسه من العنت وهو الزنا."}, {"q": "نكاح المسلم للأمة الكتابية:", "o": ["جائز", "لا يجوز لأنه قال ﴿المؤمنات﴾", "جائز برضاها", "جائز للعبد فقط"], "a": 1, "w": "جوّز نكاح الأمة بشرط أن تكون مؤمنة."}, {"q": "الكتابية التي يجوز نكاحها بنص المائدة:", "o": ["الأمة", "الحرة", "المسبية", "كل كتابية"], "a": 1, "w": "﴿والمحصنات من الذين أوتوا الكتاب﴾ أي الحرائر."}, {"q": "الأمة الكتابية بالاتفاق:", "o": ["لا توطأ مطلقاً", "يجوز وطؤها بملك اليمين", "تنكح بإذن السلطان", "تنكح بلا ولي"], "a": 1, "w": "وجوّز أصحاب الرأي نكاحها."}, {"q": "﴿والله أعلم بإيمانكم﴾:", "o": ["لا تتعرضوا للباطن في الإيمان وخذوا بالظاهر", "اختبروا إيمانهن", "لا تتزوجوا", "اسألوهن"], "a": 0, "w": "فإن الله أعلم بإيمانكم."}, {"q": "﴿بعضكم من بعض﴾:", "o": ["إخوة لبعض، أو من نفس واحدة فلا تستنكفوا من نكاح الإماء", "أعداء", "جيران", "شركاء"], "a": 0, "w": "قيل: بعضكم إخوة لبعض."}, {"q": "﴿بإذن أهلهن﴾ أي:", "o": ["أزواجهن", "مواليهن", "آبائهن", "إمامهن"], "a": 1, "w": "و﴿بالمعروف﴾: من غير مطل وضرار."}, {"q": "﴿محصنات﴾ في هذه الآية:", "o": ["حرائر", "عفائف بالنكاح", "مسلمات فقط", "متزوجات"], "a": 1, "w": "و﴿غير مسافحات﴾ غير زانيات."}, {"q": "﴿ولا متخذات أخدان﴾:", "o": ["أحباب تزنون بهن في السر", "خادمات", "صديقات", "قريبات"], "a": 0, "w": "أي: أحباب يزنون بهن سراً."}, {"q": "المسافحة وذات الخدن (الحسن):", "o": ["المسافحة: من دعاها تبعته. وذات الخدن: تختص بواحد", "العكس", "شيء واحد", "المسافحة المتزوجة"], "a": 0, "w": "والعرب كانت تحرّم الأولى وتجوّز الثانية."}, {"q": "﴿فعليهن نصف ما على المحصنات من العذاب﴾:", "o": ["الرجم", "نصف حد الحرائر الأبكار: خمسون جلدة", "مائة جلدة", "التعزير"], "a": 1, "w": "أي ما على الحرائر الأبكار إذا زنين؛ والعذاب: الحد."}, {"q": "تغريب الرقيق إذا زنى:", "o": ["لا يُغرّب", "فيه قولان، والأصح نصف سنة", "سنة كاملة", "ثلاث سنين"], "a": 1, "w": "ولا رجم على العبيد."}, {"q": "الرجم على العبيد:", "o": ["يجب", "لا رجم", "يجب في المتزوج", "يجب في الإماء"], "a": 1, "w": "فيجلد الرقيق إذا زنى خمسين جلدة."}, {"q": "معنى الإحصان عند الآخرين:", "o": ["الزواج", "الحرية", "الإسلام", "العفة"], "a": 2, "w": "ومعنى الإحصان عند الآخرين الإسلام."}, {"q": "﴿ذلك﴾ يعني:", "o": ["نكاح الأمة عند عدم الطول", "الزنا", "نكاح الحرة", "المتعة"], "a": 0, "w": "﴿لمن خشي العنت منكم﴾ يعني الزنا، يريد المشقة لغلبة الشهوة."}, {"q": "﴿وأن تصبروا خير لكم﴾ لأن:", "o": ["أكثر أجراً", "أقل مهراً", "لئلا يُخلق الولد رقيقاً", "الإماء محرمات"], "a": 2, "w": "عن نكاح الإماء متعففين."}]}, {"t": "مقاصد التشريع (٢٦–٢٨)", "items": [{"q": "﴿يريد الله ليبين لكم﴾:", "o": ["أن يبين لكم (اللام بمعنى أن)", "ليخفي", "ليعاقب", "ليمتحن"], "a": 0, "w": "كقوله ﴿وأمرت لأعدل بينكم﴾ أي أن أعدل."}, {"q": "معنى الآية:", "o": ["يوضح لكم شرائع دينكم ومصالح أموركم", "يمتحنكم", "يعاقبكم", "يخفي عنكم"], "a": 0, "w": "قال عطاء: يبين لكم ما يقرّبكم منه."}, {"q": "قال الكلبي: يبين لكم أن:", "o": ["الصبر عن نكاح الإماء خير لكم", "المتعة حلال", "الحرائر أفضل", "الطلاق مباح"], "a": 0, "w": "﴿ويهديكم﴾ ويرشدكم."}, {"q": "﴿سنن الذين من قبلكم﴾:", "o": ["عاداتهم", "شرائعهم في تحريم الأمهات والبنات والأخوات", "لغاتهم", "حروبهم"], "a": 1, "w": "فإنها كانت محرمة على من قبلكم."}, {"q": "وقيل: ﴿ويهديكم﴾ أي:", "o": ["الملة الحنيفية ملة إبراهيم عليه السلام", "شريعة موسى", "شريعة عيسى", "شريعة نوح"], "a": 0, "w": "﴿ويتوب عليكم﴾."}, {"q": "﴿ويتوب عليكم﴾ أي:", "o": ["يعاقبكم", "يتجاوز عنكم ما أصبتم قبل أن يبين لكم", "يؤخركم", "يبتليكم"], "a": 1, "w": "وقيل: يرجع بكم من المعصية إلى طاعته، وقيل: يوفقكم للتوبة."}, {"q": "﴿عليم حكيم﴾:", "o": ["بمصالح عباده في دينهم ودنياهم، حكيم فيما دبّر", "قادر فقط", "غني", "خبير"], "a": 0, "w": "عليم بمصالح عباده حكيم فيما دبّر من أمورهم."}, {"q": "﴿والله يريد أن يتوب عليكم﴾:", "o": ["إن وقع منكم تقصير في أمر دينه", "إن أسلمتم", "إن هاجرتم", "إن جاهدتم"], "a": 0, "w": "﴿ويريد الذين يتبعون الشهوات أن تميلوا ميلاً عظيماً﴾."}, {"q": "﴿ميلاً عظيماً﴾:", "o": ["عن الحق بإتيانكم ما حرّم عليكم", "إلى الحق", "إلى الدنيا", "إلى الجهاد"], "a": 0, "w": "عن الحق."}, {"q": "المتبعون للشهوات عند السدي:", "o": ["الزناة", "المجوس", "اليهود والنصارى", "المنافقون"], "a": 2, "w": "واختلفوا في الموصوفين."}, {"q": "قيل: المجوس لأنهم:", "o": ["يحلّون نكاح الأخوات وبنات الأخ والأخت", "يشركون", "يحرمون الزواج", "يشربون الخمر"], "a": 0, "w": "فهم متبعو الشهوات."}, {"q": "المتبعون للشهوات عند مجاهد:", "o": ["اليهود", "الزناة يريدون أن تميلوا عن الحق فتزنوا كما يزنون", "المنافقون", "الكفار"], "a": 1, "w": "وقيل: جميع أهل الباطل."}, {"q": "﴿يريد الله أن يخفف عنكم﴾:", "o": ["يشدد عليكم", "يسهّل عليكم في أحكام الشرع", "يؤخر عنكم", "يعفيكم من العبادة"], "a": 1, "w": "وقد سهّل، وقال ﷺ: «بُعثت بالحنيفية السمحة السهلة»."}, {"q": "﴿وخُلق الإنسان ضعيفاً﴾ عند طاووس والكلبي:", "o": ["في بدنه", "لا يصبر عن النساء", "في ماله", "في علمه"], "a": 1, "w": "في أمر النساء."}, {"q": "﴿وخُلق الإنسان ضعيفاً﴾ عند ابن كيسان:", "o": ["يستميله هواه وشهوته", "قليل المال", "قليل العلم", "مريض"], "a": 0, "w": "وقال الحسن: خُلق من ماء مهين."}]}, {"t": "الأموال وقتل النفس (٢٩–٣٠)", "items": [{"q": "﴿بالباطل﴾ يعني:", "o": ["بالربا والقمار والغصب والسرقة والخيانة", "بالبيع", "بالهبة", "بالإجارة"], "a": 0, "w": "بالحرام."}, {"q": "وقيل ﴿بالباطل﴾ هو:", "o": ["العقود الفاسدة", "العقود الصحيحة", "الهبات", "الصدقات"], "a": 0, "w": "﴿إلا أن تكون تجارة﴾."}, {"q": "﴿عن تراض منكم﴾:", "o": ["بإكراه", "بطيبة نفس كل واحد منكم", "بعد سنة", "بشاهدين"], "a": 1, "w": "أي بطيبة نفس كل واحد."}, {"q": "﴿ولا تقتلوا أنفسكم﴾ قال أبو عبيدة:", "o": ["لا تسافروا", "لا تهلكوها", "لا تجاهدوا", "لا تصوموا"], "a": 1, "w": "كما قال ﴿ولا تلقوا بأيديكم إلى التهلكة﴾."}, {"q": "وقيل في ﴿ولا تقتلوا أنفسكم﴾:", "o": ["قتل المسلم نفسه", "الجهاد", "الصيام", "الهجرة"], "a": 0, "w": "أراد به قتل المسلم نفسه."}, {"q": "قال الحسن: ﴿لا تقتلوا أنفسكم﴾ يعني:", "o": ["أولادكم", "إخوانكم: لا يقتل بعضكم بعضاً", "أعداءكم", "عبيدكم"], "a": 1, "w": "﴿إن الله كان بكم رحيماً﴾."}, {"q": "العدوان والظلم:", "o": ["العدوان مجاوزة الحد، والظلم وضع الشيء في غير موضعه", "الشرك والكفر", "القتل والسرقة", "الربا والغش"], "a": 0, "w": "﴿ومن يفعل ذلك﴾ يعني ما سبق من المحرمات."}, {"q": "﴿فسوف نصليه ناراً﴾:", "o": ["ندخله في الآخرة ناراً يُصلى فيها", "نحرقه في الدنيا", "نبتليه", "نهلكه"], "a": 0, "w": "﴿وكان ذلك على الله يسيراً﴾ أي هيناً."}]}, {"t": "الكبائر (٣١)", "items": [{"q": "﴿إن تجتنبوا كبائر ما تنهون عنه﴾ اختلفوا في:", "o": ["الكبائر التي جعل الله اجتنابها تكفيراً للصغائر", "عدد الصلوات", "الحدود", "المواريث"], "a": 0, "w": "قوله تعالى."}, {"q": "تعريف الكبيرة عند علي بن أبي طلحة:", "o": ["كل ذنب ختمه الله بنار أو غضب أو لعنة أو عذاب", "ما فيه حد فقط", "ما فيه كفارة", "ما فيه دية"], "a": 0, "w": "قال: هي كل ذنب ختمه الله بنار أو غضب أو لعنة أو عذاب."}, {"q": "﴿مدخلاً كريماً﴾:", "o": ["القبر", "حسناً وهو الجنة", "الدنيا", "الأعراف"], "a": 1, "w": "﴿وندخلكم مدخلاً كريماً﴾."}]}, {"t": "التفاضل والميراث والحلف (٣٢–٣٣)", "items": [{"q": "سبب نزول ﴿ولا تتمنوا ما فضل الله به بعضكم على بعض﴾ (مجاهد):", "o": ["قول عائشة", "قول أم سلمة: الرجال يغزون ولهم ضعف الميراث", "قول حفصة", "قول أسماء"], "a": 1, "w": "فلو كنا رجالاً غزونا كما غزوا وأخذنا من الميراث مثل ما أخذوا."}, {"q": "﴿للرجال نصيب مما اكتسبوا﴾ معناه:", "o": ["للرجال ضعف الأجر", "للنساء ضعف الأجر", "الأجر في الآخرة سواء", "لا أجر للنساء"], "a": 2, "w": "فالحسنة بعشر أمثالها يستوي فيها الرجال والنساء."}, {"q": "فضل الرجال على النساء:", "o": ["في الآخرة", "في الدنيا", "في الأجر", "في الجنة"], "a": 1, "w": "وإن فضل الرجال في الدنيا على النساء."}, {"q": "وقيل: للرجال نصيب مما اكتسبوا من:", "o": ["الجهاد، وللنساء من طاعة الأزواج وحفظ الفروج", "التجارة", "العلم", "الصيام"], "a": 0, "w": "فللنساء فضل طاعة الأزواج وحفظ الفروج."}, {"q": "الحسد والغبطة:", "o": ["الحسد جائز والغبطة حرام", "كلاهما حرام", "الحسد حرام والغبطة جائزة", "كلاهما جائز"], "a": 2, "w": "الحسد: تمني زوال النعمة عن صاحبها وتمنيها لنفسه."}, {"q": "﴿ولكل جعلنا موالي﴾:", "o": ["أصدقاء", "عصبة يعطون مما ترك الوالدان والأقربون", "عبيداً", "جيراناً"], "a": 1, "w": "وقيل: ورثة."}, {"q": "الوالدان والأقربون هم:", "o": ["الوارثون المورِّثون", "الأوصياء", "الشهود", "القضاة"], "a": 0, "w": "قيل: ﴿ما﴾ بمعنى ﴿مَن﴾."}, {"q": "المعاقدة في ﴿عاقدت أيمانكم﴾:", "o": ["المحالفة والمعاهدة", "المبايعة", "المصاهرة", "المؤاخاة"], "a": 0, "w": "والأيمان جمع يمين من اليد والقسم."}, {"q": "سبب تسمية الأيمان:", "o": ["لأخذ بعضهم بيد بعض على الوفاء والتمسك بالعهد", "لأنها في اليمين", "للقسم فقط", "للمصافحة"], "a": 0, "w": "عند المحالفة."}, {"q": "نصيب الحليف من مال حليفه في ابتداء الإسلام:", "o": ["السدس", "الثلث", "الربع", "النصف"], "a": 0, "w": "«دمي دمك وهدمي هدمك…»."}, {"q": "﴿فآتوهم نصيبهم﴾ على قول الميراث:", "o": ["نُسخ بـ﴿وأولو الأرحام بعضهم أولى ببعض﴾", "نُسخ بآية الصيام", "لم يُنسخ", "نُسخ بآية الحج"], "a": 0, "w": "أعطوهم حظهم من الميراث ثم نُسخ (الأحزاب ٦)."}, {"q": "قول إبراهيم ومجاهد في ﴿فآتوهم نصيبهم﴾:", "o": ["من الميراث", "من النصر والرفد ولا ميراث، فالآية غير منسوخة", "من الدية", "من الصداق"], "a": 1, "w": "وعلى هذا تكون الآية غير منسوخة."}]}, {"t": "القوامة والنشوز (٣٤)", "items": [{"q": "﴿قوامون﴾ معناها:", "o": ["مسلّطون على تأديبهن", "خدم", "أولياء فقط", "ورثة"], "a": 0, "w": "والقوّام والقيّم بمعنى واحد."}, {"q": "﴿بما فضل الله بعضهم على بعض﴾:", "o": ["بزيادة العقل والدين والولاية", "بالجمال", "بالسن", "بالمال فقط"], "a": 0, "w": "فضّل الرجال على النساء."}, {"q": "من وجوه التفضيل:", "o": ["الشهادة والجهاد والعبادات كالجمعة والجماعة", "الطعام", "اللباس", "السفر"], "a": 0, "w": "﴿فإن لم يكونا رجلين فرجل وامرأتان﴾."}, {"q": "من وجوه التفضيل أيضاً:", "o": ["الطلاق بيده وتعدد الزوجات", "الحجاب", "السكن", "اللباس"], "a": 0, "w": "وقيل: بالميراث والدية والنبوة."}, {"q": "﴿وبما أنفقوا من أموالهم﴾:", "o": ["النذور", "إعطاء المهر والنفقة", "الزكاة", "الصدقة"], "a": 1, "w": "يعني: إعطاء المهر والنفقة."}, {"q": "﴿فالصالحات قانتات﴾ أي:", "o": ["مطيعات", "جميلات", "غنيات", "عالمات"], "a": 0, "w": "﴿حافظات للغيب﴾."}, {"q": "﴿حافظات للغيب﴾:", "o": ["للقرآن", "للفروج في غيبة الأزواج", "للأموال فقط", "للأسرار فقط"], "a": 1, "w": "وقيل: حافظات لسرهم."}, {"q": "أصل النشوز:", "o": ["الكراهية", "التكبر والارتفاع", "الهجر", "الحزن"], "a": 1, "w": "﴿تخافون نشوزهن﴾ أي عصيانهن."}, {"q": "﴿فعظوهن﴾:", "o": ["بالتخويف من الله والوعظ بالقول", "بالضرب", "بالهجر", "بالطلاق"], "a": 0, "w": "أول مراتب العلاج."}, {"q": "﴿واهجروهن في المضاجع﴾ عند ابن عباس:", "o": ["يعتزل البيت", "يولّيها ظهره في الفراش ولا يكلمها", "يطلقها", "يسافر"], "a": 1, "w": "وقال غيره: يعتزل عنها إلى فراش آخر."}, {"q": "﴿واضربوهن﴾:", "o": ["ضرباً مبرّحاً", "ضرباً غير مبرّح ولا شائن", "على الوجه", "بالعصا"], "a": 1, "w": "وقال عطاء: ضرباً بالسواك."}, {"q": "من حق المرأة (حديث):", "o": ["أن تطعمها إذا طعمت وتكسوها إذا اكتسيت", "الضرب على الوجه", "الهجر خارج البيت", "التقبيح"], "a": 0, "w": "«ولا تضرب الوجه ولا تقبّح ولا تهجر إلا في البيت»."}, {"q": "﴿فلا تبغوا عليهن سبيلاً﴾:", "o": ["لا تجنوا عليهن الذنوب", "لا تطلقوهن", "لا تسافروا بهن", "لا تكلموهن"], "a": 0, "w": "أي: لا تجنوا عليهن."}, {"q": "قال ابن عيينة:", "o": ["لا تكلفوهن محبتكم فإن القلب ليس بأيديهن", "لا تضربوهن", "لا تهجروهن", "لا تعظوهن"], "a": 0, "w": "﴿إن الله كان علياً كبيراً﴾."}, {"q": "﴿علياً كبيراً﴾:", "o": ["متعالٍ عن أن يُكلّف العباد ما لا يطيقون", "قريب", "بعيد", "غني فقط"], "a": 0, "w": "تعالى الله."}, {"q": "ظاهر الآية في الوعظ والهجران والضرب:", "o": ["أن الزوج يجمع عليها بينها", "يقتصر على الوعظ", "يقتصر على الضرب", "لا يجوز الهجر"], "a": 0, "w": "فذهب بعضهم إلى ظاهرها."}, {"q": "﴿تخافون نشوزهن﴾: الخوف بمعنى:", "o": ["العلم عند بعضهم، والخشية عند آخرين", "الفرح", "الحزن", "الغضب"], "a": 0, "w": "كقوله ﴿فمن خاف من موص جنفاً﴾ أي علم."}]}, {"t": "الشقاق والحكمان (٣٥)", "items": [{"q": "﴿وإن خفتم شقاق بينهما﴾:", "o": ["شقاقاً بين الزوجين، والخوف بمعنى اليقين أو الظن", "شقاقاً بين الجيران", "بين الشريكين", "بين الأخوين"], "a": 0, "w": "وقيل: بمعنى الظن أي إن ظننتم."}, {"q": "متى يبعث الإمام الحكمين؟", "o": ["إذا لم يفعل الزوج الصفح ولا الفرقة، ولا المرأة تأدية الحق ولا الفدية، وخرجا إلى ما لا يحل", "عند أول خلاف", "بعد سنة", "بطلب الزوج فقط"], "a": 0, "w": "قولاً وفعلاً."}, {"q": "من يبعث الحكمين؟", "o": ["الزوج", "الإمام", "الزوجة", "القاضي من الغرباء"], "a": 1, "w": "بعث الإمام حكماً من أهله إليه وحكماً من أهلها إليها."}, {"q": "صفة الحكمين:", "o": ["قريبان فقط", "رجلان حران عدلان", "امرأتان", "عالمان فقط"], "a": 1, "w": "حكم من أهله وحكم من أهلها."}, {"q": "مهمة كل حكم:", "o": ["أن يستطلع رأي من بُعث إليه: الوصلة أو الفرقة", "أن يطلّق", "أن يحكم بالمال", "أن يمنع الصلح"], "a": 0, "w": "ثم يجتمعان فينفذان ما اجتمع عليه رأيهما من الصلاح."}, {"q": "﴿إن يريدا إصلاحاً يوفق الله بينهما﴾ يعني:", "o": ["الحكمين، وقيل: بين الزوجين", "الزوج فقط", "الزوجة فقط", "القاضي"], "a": 0, "w": "﴿إن الله كان عليماً خبيراً﴾."}, {"q": "قال الرجل لما قيل: «إن رأيتما أن تفرقا فرقتما»:", "o": ["رضيت", "أما الفرقة فلا", "أطلّقها", "لا أعلم"], "a": 1, "w": "فقال علي: كذبت حتى تقرّ بمثل الذي أقرّت به."}, {"q": "﴿يوفق الله بينهما﴾ يشتمل على:", "o": ["الصلح فقط", "الفراق فقط", "الفراق وغيره", "الرجعة فقط"], "a": 2, "w": "لأن التوفيق أن يخرج كل واحد منهما من الوزر."}, {"q": "التوفيق بين الزوجين:", "o": ["تارة بالفرقة وتارة بصلاح حالهما في الوصلة", "بالفرقة دائماً", "بالصلح دائماً", "بالمال"], "a": 0, "w": "وهو آخر المقرر."}]}];
+  var KEY = [[0, 1, 8, 9, 11, 12, 13], [4, 5, 6, 14, 15, 20], [3, 9, 12], [0, 6], [0, 1], [0, 1, 4, 9, 10, 11], [0, 1, 7, 8, 9, 10, 11], [0, 1, 2, 3, 4, 5, 7]];
+  var LET = ["أ","ب","ج","د"];
+  function AR(n){ try{ return Number(n).toLocaleString("ar-EG"); }catch(e){ return String(n); } }
+  function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function fmt(s){ return esc(s).replace(/\*([^*]+)\*/g,'<b class="e">$1</b>'); }
+  function $(id){ return document.getElementById(id); }
+
+  var secs = [], cur = -1, total = 0;
+
+  D.forEach(function(sec, si){
+    var box = document.createElement("div"); box.hidden = true;
+    var recs = [];
+    sec.items.forEach(function(it, qi){
+      total++;
+      var card = document.createElement("div"); card.className = "q c" + (si % 6);
+      var num = document.createElement("div"); num.className = "q-num"; num.textContent = "السؤال " + AR(qi + 1) + " من " + AR(sec.items.length);
+      var qt = document.createElement("p"); qt.className = "q-text"; qt.textContent = it.q;
+      var opts = document.createElement("div"); opts.className = "opts" + (it.tf ? " tf" : "");
+      var rec = {q: it, card: card, opts: [], ans: null, first: null, why: null};
+      it.o.forEach(function(o, oi){
+        var b = document.createElement("button"); b.type = "button"; b.className = "opt";
+        if(!it.tf){ var l = document.createElement("span"); l.className = "letter"; l.textContent = LET[oi]; b.appendChild(l); }
+        var t = document.createElement("span"); t.className = "txt"; t.textContent = o; b.appendChild(t);
+        b.addEventListener("click", function(){ choose(si, rec, oi); });
+        opts.appendChild(b); rec.opts.push(b);
+      });
+      card.appendChild(num); card.appendChild(qt); card.appendChild(opts);
+      box.appendChild(card); recs.push(rec);
+    });
+    $("cards").appendChild(box);
+    secs.push({t: sec.t, box: box, recs: recs});
+
+    var tile = document.createElement("button"); tile.type = "button"; tile.className = "tile c" + (si % 6); tile.id = "tile" + si;
+    tile.innerHTML = '<b><span>' + esc(sec.t) + '</span><span id="tp' + si + '"></span></b><small>' + AR(sec.items.length) + ' سؤالاً</small><div class="mini"><i id="tb' + si + '"></i></div>';
+    tile.addEventListener("click", function(){ openSec(si); });
+    $("grid").appendChild(tile);
+  });
+  $("total").textContent = AR(total) + " سؤالاً في " + AR(D.length) + " قسماً";
+
+  function paint(rec){
+    var right = rec.ans === rec.q.a;
+    rec.card.classList.add("locked");
+    rec.opts.forEach(function(b, i){
+      b.classList.remove("ok","no");
+      if(i === rec.q.a) b.classList.add("ok");
+      if(i === rec.ans && !right) b.classList.add("no");
+    });
+    if(!rec.why){
+      var w = document.createElement("div"); w.className = "why";
+      var v = document.createElement("span"); v.className = "verdict " + (right ? "ok" : "no");
+      v.textContent = right ? "إجابة صحيحة ✓" : "إجابة خاطئة، والصواب: " + rec.q.o[rec.q.a];
+      var p = document.createElement("div"); p.innerHTML = fmt(rec.q.w);
+      w.appendChild(v); w.appendChild(p); rec.card.appendChild(w); rec.why = w;
+    }
+  }
+  function unpaint(rec){
+    rec.ans = null; rec.card.classList.remove("locked");
+    rec.opts.forEach(function(b){ b.classList.remove("ok","no"); });
+    if(rec.why){ rec.why.remove(); rec.why = null; }
+  }
+  function counts(si){
+    var ok = 0, no = 0;
+    secs[si].recs.forEach(function(r){ if(r.ans === null) return; if(r.ans === r.q.a) ok++; else no++; });
+    return {ok: ok, no: no, left: secs[si].recs.length - ok - no, n: secs[si].recs.length};
+  }
+  function choose(si, rec, oi){
+    if(rec.ans !== null) return;
+    rec.ans = oi;
+    if(rec.first === null) rec.first = (oi === rec.q.a);
+    paint(rec); update(si);
+    var c = counts(si);
+    var pending = secs[si].recs.some(function(r){ return !r.card.hidden && r.ans === null; });
+    if(!pending){
+      showResult(si, c);
+      setTimeout(function(){ $("result").scrollIntoView({behavior: "smooth", block: "center"}); }, 350);
+    }
+  }
+  function showResult(si, c){
+    var s = secs[si], firstOk = s.recs.filter(function(r){ return r.first === true; }).length;
+    var res = $("result"); res.hidden = false;
+    res.className = "result c" + (si % 6);
+    if(c.no === 0){
+      $("rTitle").textContent = "أحسنت، أتقنت هذا القسم ✓";
+      $("rText").textContent = "أجبت صحيحاً من أول مرة عن " + AR(firstOk) + " من " + AR(c.n) + " سؤالاً، وأتقنت الباقي بعد الإعادة.";
+    } else {
+      $("rTitle").textContent = "انتهى القسم";
+      $("rText").textContent = "الصحيح الآن " + AR(c.ok) + " من " + AR(c.n) + ". أخطأت في " + AR(c.no) + (c.no > 10 ? " سؤالاً" : c.no === 1 ? " سؤال" : " أسئلة") + "، أعدها الآن لتثبت.";
+    }
+    $("retryWrong").hidden = (c.no === 0);
+    $("nextSec").hidden = (si >= secs.length - 1);
+  }
+  function update(si){
+    var c = counts(si);
+    $("cOk").textContent = AR(c.ok); $("cNo").textContent = AR(c.no); $("cLeft").textContent = AR(c.left);
+    $("tOk").style.width = (c.ok / c.n * 100) + "%"; $("tNo").style.width = (c.no / c.n * 100) + "%";
+    refreshTile(si);
+  }
+  function refreshTile(si){
+    var c = counts(si);
+    $("tp" + si).textContent = c.ok === c.n ? "✓" : (c.ok || c.no ? AR(c.ok) + " / " + AR(c.n) : "");
+    $("tb" + si).style.width = (c.ok / c.n * 100) + "%";
+  }
+  function openSec(si){
+    cur = si;
+    secs.forEach(function(s, i){ s.box.hidden = (i !== si); });
+    $("home").hidden = true; $("secView").hidden = false;
+    $("bar").className = "bar c" + (si % 6);
+    $("secTitle").textContent = secs[si].t;
+    $("result").hidden = true;
+    update(si);
+    var c = counts(si);
+    if(c.left === 0 && c.n > 0) showResult(si, c);
+    window.scrollTo(0, 0);
+  }
+  function goHome(){
+    $("secView").hidden = true; $("home").hidden = false; cur = -1;
+    window.scrollTo(0, 0);
+  }
+  $("back").addEventListener("click", goHome);
+  $("nextSec").addEventListener("click", function(){ if(cur < secs.length - 1) openSec(cur + 1); });
+  $("retryWrong").addEventListener("click", function(){
+    var first = null;
+    secs[cur].recs.forEach(function(r){
+      if(r.ans === r.q.a){ r.card.hidden = true; }
+      else { unpaint(r); r.card.hidden = false; if(!first) first = r; }
+    });
+    $("result").hidden = true; update(cur);
+    if(first) first.card.scrollIntoView({behavior: "auto", block: "start"});
+  });
+  $("restart").addEventListener("click", function(){
+    secs[cur].recs.forEach(function(r){ unpaint(r); r.first = null; r.card.hidden = false; });
+    $("result").hidden = true; update(cur); window.scrollTo(0, 0);
+  });
+
+  /* الملخصات */
+  function mk(all){var h="";D.forEach(function(sec,si){var ks=all?sec.items.map(function(_,i){return i}):(KEY[si]||[]);if(!ks.length)return;h+='<div class="sg c'+(si%6)+'"><h3>'+esc(sec.t)+'</h3>';ks.forEach(function(k){var it=sec.items[k];if(!it)return;h+='<div class="sq"><div class="sqq">'+esc(it.q)+'</div><div class="sqa">'+esc(it.o[it.a])+'</div></div>'});h+='</div>'});return h}
+  function openSum(all){$("sumTitle").textContent=all?"ملخص جميع الأسئلة":"ملخص أهم الأسئلة";$("sumBody").innerHTML=mk(all);$("sheet").hidden=false;$("sheet").scrollTop=0}
+  $("sumBtn").addEventListener("click",function(){openSum(false)});
+  $("allBtn").addEventListener("click",function(){openSum(true)});
+  $("closeSum").addEventListener("click",function(){$("sheet").hidden=true});
+
+  D.forEach(function(s, i){ refreshTile(i); });
+})();
+</script>
+</body>
+</html>
